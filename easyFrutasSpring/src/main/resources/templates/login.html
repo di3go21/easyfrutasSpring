@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.0.1">
+    <title>Logueate!</title>
+
+    <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+
+    <link href="css/login.css" rel="stylesheet">
+  </head>
+ <body class="text-center">
+    <form class="form-signin" method="post" th:action="@{/login}">
+  <img class="mb-4" src="/img/iconofrutas.png" alt="" width="200" height="200">
+  <h1 class="h3 mb-3 font-weight-normal">Logueate!</h1>
+  <label for="inputEmail" class="sr-only">Email</label>
+  <input type="email" name="username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+		<div align="center" th:if="${param.error}">
+            <p style="font-size: 20; color: #FF1C19;">Email o contraseña no válidas!.</p>
+        </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Dale!</button>
+  <p class="mt-5 mb-3 text-muted">&copy; EasyFrutas</p>
+</form>
+</body>
+
+</body>
+</html>

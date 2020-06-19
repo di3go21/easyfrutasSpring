@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+		<div class="panel-body">
+					<form id="signupform" class="form-horizontal" role="form"
+						method="POST" enctype="multipart/form-data" th:action="@{/registro}" th:object="${usuario}">
+
+						<div id="signupalert" style="display: none"
+							class="alert alert-danger">
+							<p>Error:</p>
+							<span></span>
+						</div>
+
+
+
+						<div class="form-group">
+							<label for="email" class="col-md-3 control-label">Email</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="email"
+									placeholder="Email" th:field="*{email}">
+							</div>
+						</div>
+							<div class="form-group">
+							<label for="password" class="col-md-3 control-label">Password</label>
+							<div class="col-md-9">
+								<input type="password" class="form-control" name="passwd"
+									placeholder="Password" th:field="*{contrasenia}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="nombre" class="col-md-3 control-label">Nombre</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="nombre"
+									placeholder="Nombre" th:field="*{nombre}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="apellidos" class="col-md-3 control-label">Apellidos</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="apellidos"
+									placeholder="Apellidos" th:field="*{apellido}">
+							</div>
+							</div>
+						
+					
+				<div class="form-group">
+							<label for="apellidos" class="col-md-3 control-label">Dirección</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="direccion"
+									placeholder="Apellidos" th:field="*{direccion}">
+							</div>
+							</div>
+							<div class="form-group">
+							<label for="apellidos" class="col-md-3 control-label">Teléfono</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="telefono"
+									placeholder="Apellidos" th:field="*{telefono}">
+							</div>
+							</div>
+
+					
+							<!-- Button -->
+							<div class="col-md-offset-3 col-md-9">
+								<button id="btn-signup" type="submit" class="btn btn-info">
+									Continuar</button>
+								
+							</div>
+						
+
+
+
+
+
+					</form>
+					</div>
+</body>
+</html>
