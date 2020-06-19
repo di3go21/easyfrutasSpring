@@ -78,10 +78,10 @@
 						class="form d-flex justify-content-center">
 
 						<div class="form-group mx-sm-3 mb-2" >
-							<input type="hidden" name="idprod" value="${producto.id}">
+							<input type="hidden" name="idprod" th:value="${producto.id}">
 						<input type="number" size="3"
-								value="0.5" id="cantidad" step="0.2" name="cantidad" min="0.5"
-								max="${producto.stock}"><span style="margin-left:5px">kg</span>
+								value="0.5" id="cantidad" step="0.1" name="cantidad" min="0.5"
+								th:max="${producto.stock}"><span style="margin-left:5px">kg</span>
 								<button type="submit" class="btn btn-primary mb-2">Pa la cesta!</button>
 						</div>
 					

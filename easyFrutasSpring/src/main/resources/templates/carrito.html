@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	xdddd
+	<div th:each="map : ${lista}">
+		<div th:each="articulo : ${map}">
+
+<p></p>
+
+			<div th:with="result=${articulo.key.precio * articulo.value}">
+				
+				<span th:text="${articulo.key.nombre}"></span>  <span
+				th:text="${articulo.key.precio}"></span>precio por Kilo * <span
+				th:text="${articulo.value}"></span> cantidad = <span th:text="${#numbers.formatCurrency(result)}"></span> totoal
+				
+<!-- 				 th:text="${#numbers.formatCurrency(result,3,2)}"></span> -->
+				
+				 
+			</div>
+
+			
+		</div>
+	</div>
+
 
 </body>
 </html>

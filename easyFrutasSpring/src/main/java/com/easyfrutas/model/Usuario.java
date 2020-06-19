@@ -1,6 +1,7 @@
 package com.easyfrutas.model;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(uniqueConstraints=@UniqueConstraint(columnNames = {"email"}))
 
 @EntityListeners(AuditingEntityListener.class)
-public class Usuario{
+public class Usuario implements Serializable{
 	
 	@Id @GeneratedValue
 	private long id;

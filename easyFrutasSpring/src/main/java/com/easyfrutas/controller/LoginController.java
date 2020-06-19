@@ -1,5 +1,7 @@
 package com.easyfrutas.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,14 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.easyfrutas.model.Carrito;
 import com.easyfrutas.model.Usuario;
+import com.easyfrutas.repositorios.CarritoRepositorio;
 import com.easyfrutas.servicios.UsuarioServicio;
 
 @Controller
 public class LoginController {
 	@Autowired
 	UsuarioServicio usuServ;
-	
 
 	@GetMapping("/login")
 	public String login() {
@@ -58,7 +61,8 @@ public class LoginController {
 			
 		}
 		usuServ.registrar(usuario);
-			
+		//esto hay q merlo al servicio
+		
 		return "login";
 		
 	}
