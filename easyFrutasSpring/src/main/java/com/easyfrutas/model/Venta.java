@@ -10,9 +10,10 @@ import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Entity @AllArgsConstructor
+@Entity @AllArgsConstructor @NoArgsConstructor
 public class Venta {
 	
 	@Id @GeneratedValue
@@ -24,6 +25,7 @@ public class Venta {
 	@ManyToOne
 	private Usuario usuario;
 	
+	private double precioTotal;
 	
 
 }

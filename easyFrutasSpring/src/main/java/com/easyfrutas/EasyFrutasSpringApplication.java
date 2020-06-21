@@ -28,6 +28,7 @@ public class EasyFrutasSpringApplication {
 			usu.setContrasenia("password");
 			usu.setEmail("hola@test");
 			usu.setTelefono("916130484");
+			usu.setDireccion("corona verde ");
 			
 			Usuario usu2 = new Usuario();
 			usu2.setNombre("Almu diego");

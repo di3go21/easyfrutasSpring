@@ -23,17 +23,17 @@ public class UsuarioController {
 	@Autowired
 	public ProductoRepositorio productoRepositorio;
 
-	@GetMapping({"","/hola"})
+	@GetMapping("/hola")
 	public String bienvenida(Model modelo) {
 		
 		List<Usuario> todos= usuarioRepositorio.findAll();
 		todos.forEach(x->System.err.println(x));
 		modelo.addAttribute("usuarios",todos);
-		
+		System.err.println("loco");
 		return "welcome";
 	}
 	
-	@GetMapping("/productos")
+	@GetMapping({"","/productos"})
 	public String productos(Model modelo) {
 		System.out.println("loco?");
 		List<Producto> todosProductos= productoRepositorio.findAll();

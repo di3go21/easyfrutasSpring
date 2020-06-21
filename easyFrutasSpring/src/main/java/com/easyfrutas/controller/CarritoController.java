@@ -1,7 +1,6 @@
 package com.easyfrutas.controller;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,13 +32,16 @@ public class CarritoController {
 	@Autowired
 	ProductoRepositorio prodRepo;
 	
+	
+	
+	
 	@GetMapping("")
 	public String muestraCarrito(Model mod) {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		Usuario usu = usure.findByEmail(email);
 		Carrito carr = carrRe.findByUsuario(usu);
 		
-		mod.addAttribute("lista", carr.getLista());
+		mod.addAttribute("carrito", carr);
 		return "carrito";
 		}
 	
@@ -82,10 +84,12 @@ public class CarritoController {
 			
 		}
 		
+		carr.actualizaTotal();
+		
 		carrRe.save(carr);
 		
 		
-		model.addAttribute("lista",carr.getLista());
+		model.addAttribute("carrito",carr);
 		
 		System.out.println("SE HA GUARDADO");
 		
@@ -94,6 +98,42 @@ public class CarritoController {
 	}
 	
 	
+	@GetMapping("/actualiza/{id}")
+	public String actualizarProducto(@PathVariable int id,@RequestParam("cantidad_nueva") double cantidad){
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		Usuario usu = usure.findByEmail(email);
+		Carrito carr = carrRe.findByUsuario(usu);
+		Producto prod = prodRepo.findById(id).orElse(null);
+		carr.getLista().put(prod, cantidad);
+		carr.actualizaTotal();
+		
+		carrRe.save(carr);
+		
+		return "redirect:/carrito";
+	}
+	
+	@RequestMapping("/eliminar/{id}")
+	public String eliminarProducto(@PathVariable int id) {
+		
+		System.err.println("vamos a borrar el producto "+id);
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		Usuario usu = usure.findByEmail(email);
+		Carrito carr = carrRe.findByUsuario(usu);
+		System.err.println("carrito antes "+carr);
+		Producto prod = prodRepo.findById(id).orElse(null);
+		carr.actualizaTotal();
+		
+		carr.getLista().remove(prod);
+		carr.actualizaTotal();
+		
+
+		System.err.println("carrito despues "+carr);
+		carrRe.save(carr);
+
+		System.err.println("BOORRADO EL CARRITO");
+		
+		return "redirect:/carrito";
+	}
 	
 
 

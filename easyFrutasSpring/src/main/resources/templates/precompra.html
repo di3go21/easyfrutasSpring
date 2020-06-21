@@ -1,0 +1,169 @@
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.0.1">
+    <title>Confirma la compra!</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/form-validation.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    <div class="container">
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="/img/iconofrutas.png" alt="" width="72" height="72">
+    <h2>Datos de la compra</h2>
+    <h2 class="lead" >Por favor revisa los datos de la compra.</h2>
+    <h2 class="lead" > Si quieres modificar la cantidad de algún producto vuelve a <a href="/carrito">tu carrito</a>.  </h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted" >Tu carrito</span>
+        <span class="badge badge-secondary badge-pill" th:text="${carrito.lista.size()}">TOTAL DE PRODUCTOS</span>
+      </h4>
+      <ul class="list-group mb-3">
+
+      
+        <li class="list-group-item d-flex justify-content-between lh-condensed" th:each="articulo : ${carrito.lista}">
+          <div>
+          
+            <h5 class="my-0" th:text="${articulo.key.nombre}">Nombre del Producto</h5>
+            <img alt="imagen fruta" width="30px" th:src="'/img/'+${articulo.key.imagen}"></img>
+            <small class="text-muted"th:text="${articulo.key.precio}+' €/kg x '+${articulo.value}+' kg'" >Precio €/kg x cantidad kg </small>
+          </div>
+          <span class="text-muted"  th:with="result=${articulo.key.precio * articulo.value}" th:text="${T(com.easyfrutas.util.Numeros).redondeaAdos(result)}+' €'">100€</span>
+        </li>
+  
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total (EUR)</span>
+          <strong th:text="${#numbers.formatCurrency(carrito.total)}">20 €</strong>
+        </li>
+      </ul>
+
+      <form class="card p-2" method="get">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Código promocional">
+          <div class="input-group-append">
+            <button  type="submit" disabled class="btn btn-secondary">No quedan :(</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6 order-md-1">
+      <h4 class="mb-3">Datos del envío</h4>
+      <form class="needs-validation" novalidate action="/compra" method="post">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="firstName" >Nombre</label>
+            <input type="text" disabled class="form-control" id="firstName" placeholder=""  th:value="${usuario.nombre}" required>
+            
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="lastName" >Apellido</label>
+            <input type="text" disabled class="form-control" id="lastName" placeholder="" th:value="${usuario.apellido}" required>
+          
+          </div>
+        </div>
+
+          <div class="mb-3">
+          <label for="email">Email <span class="text-muted"></span></label>
+          <input type="email" class="form-control" disabled id="email" placeholder="ejemplo@test" th:value="${usuario.email}">
+          
+        </div>
+
+        <div class="mb-3">
+          <label for="address">Direccion Completa</label>
+          
+          <textarea th:text="${usuario.direccion}" disabled id="address" rows="3" cols="46" name="loco" class="form-control" placeholder="Calle de la felicidad 3,nº 69. CP:29332"></textarea>
+        </div>
+        
+        <div class="mb-3">
+          <label for="telefono">Teléfono <span class="text-muted"></span></label>
+          <input type="text" th:value="${usuario.telefono}" disabled class="form-control" id="telefono" placeholder="91 913 04 84">
+          
+        </div>
+        
+ <div class="mb-3">
+          <label for="obs">Observaciones</label>
+          
+          <textarea id="obs" rows="3" cols="46" name="obs" class="form-control" placeholder="Si quieres añadir alguna indicación especial a tu pedido hazlo aquí."></textarea>
+        </div>
+       
+
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            <label for="country">País</label>
+            <select class="custom-select d-block w-100" id="country" required>
+              <option value="España">España</option>
+              <option value="loco" disabled>Próximamente más</option>
+            </select>
+         
+          </div>
+      
+        </div>
+        <hr class="mb-4">
+   
+
+        <h4 class="mb-3">Pago</h4>
+
+       
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Finalizar Compra</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; EasyFrutas</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacidad</a></li>
+      <li class="list-inline-item"><a href="#">Terminos</a></li>
+      <li class="list-inline-item"><a href="#">Soporte</a></li>
+    </ul>
+  </footer>
+</div>
+<script th:inline="javascript">
+    
+    var username = [(${usuario.nombre})];
+    
+    alert('hola');
+</script>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+   
+        <script src="/js/formvalidation.js"></script></body>
+</html>

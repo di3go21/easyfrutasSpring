@@ -1,31 +1,160 @@
+
+
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+<meta name="generator" content="Jekyll v4.0.1">
+<title>Confirma la compra!</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/4.5/examples/checkout/">
+
+<!-- Bootstrap core CSS-->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+<!-- Custom styles for this template -->
+<link href="/css/form-validation.css" rel="stylesheet">
 </head>
-<body>
-	xdddd
-	<div th:each="map : ${lista}">
-		<div th:each="articulo : ${map}">
+<body class="bg-light">
+	<div class="container">
+		<div class="py-5 text-center">
+			<img class="d-block mx-auto mb-4" src="/img/iconofrutas.png" alt=""
+				width="72" height="72">
+			<h2>Carrito de la compra</h2>
+			<h2 class="lead">Este es tu carrito, realiza las modificaciones
+				que quieras y ve a la Precompra!.</h2>
+			<h2 class="lead">
+				Si quieres volver a la pagina principal <a href="/">pincha aquí</a>.
+			</h2>
+		</div>
 
-<p></p>
+		<div class="row">
+			<div class="col-md-10 mx-auto order-md-2 mb-4">
+				<h4 class="d-flex justify-content-between align-items-center mb-3">
+					<span class="text-muted">Tu carrito</span> <span
+						class="badge badge-secondary badge-pill"
+						th:text="${carrito.lista.size()}">TOTAL DE PRODUCTOS</span>
+				</h4>
+				<ul class="list-group mb-3">
 
-			<div th:with="result=${articulo.key.precio * articulo.value}">
-				
-				<span th:text="${articulo.key.nombre}"></span>  <span
-				th:text="${articulo.key.precio}"></span>precio por Kilo * <span
-				th:text="${articulo.value}"></span> cantidad = <span th:text="${#numbers.formatCurrency(result)}"></span> totoal
-				
-<!-- 				 th:text="${#numbers.formatCurrency(result,3,2)}"></span> -->
-				
-				 
+
+					<li
+						class="list-group-item d-flex justify-content-between lh-condensed"
+						th:each="articulo : ${carrito.lista}">
+
+
+						<div class="container">
+							<div class="row">
+								<div class="col-sm-5">
+
+
+									<h4 class="my-0" th:text="${articulo.key.nombre}">Nombre
+										del Producto</h4>
+									<img alt="imagen fruta" width="30px"
+										th:src="'/img/'+${articulo.key.imagen}"></img> <small
+										class="text-muted"
+										th:text="${articulo.key.precio}+' €/kg x '+${articulo.value}+' kg'">Precio
+										€/kg x cantidad kg </small>
+								</div>
+								<div class="col-sm-6 mt-3">
+									<form method="get"
+										th:action="'/carrito/actualiza/'+${articulo.key.id}" class="">
+
+										<div>
+											<input type="hidden" name="idprod"
+												th:value="${articulo.key.id}"> <input type="number"
+												size="4" th:value="${articulo.value}" id="cantidad"
+												step="0.1" name="cantidad_nueva" min="0"
+												th:max="${articulo.key.stock}"><span
+												style="margin-left: 5px">kg</span>
+											<button type="submit" class="btn btn-success ml-1">Actualizar</button>
+											<a th:href="'/carrito/eliminar/'+${articulo.key.id}" class="btn btn-danger">X</a>
+												
+											
+												</div>
+
+
+
+
+									</form>
+									
+								</div>
+								<div class="col-sm-1 text-right mt-3">
+									
+<span class="text-muted " th:with="result=${articulo.key.precio * articulo.value}" th:text="${T(com.easyfrutas.util.Numeros).redondeaAdos(result)}+'€'">100€</span> 
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li class="list-group-item d-flex justify-content-between "><span>Total
+							(EUR)</span> <strong th:text="${#numbers.formatCurrency(carrito.total)}">20
+							€</strong></li>
+				</ul>
+
+				<div class="card p-2">
+					<div class="input-group">
+
+
+						<button class="btn btn-primary btn-lg btn-block"
+							onclick="window.location.href='/compra'" type="button">Vamos
+							a la precompra</button>
+
+
+					</div>
+				</div>
+
 			</div>
 
-			
 		</div>
+
+		<footer class="my-5 pt-5 text-muted text-center text-small">
+			<p class="mb-1">&copy; EasyFrutas</p>
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="#">Privacidad</a></li>
+				<li class="list-inline-item"><a href="#">Terminos</a></li>
+				<li class="list-inline-item"><a href="#">Soporte</a></li>
+			</ul>
+		</footer>
 	</div>
+	<script th:inline="javascript">
+		
+	</script>
 
 
+
+
+
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+
+	<script src="/js/formvalidation.js"></script>
 </body>
 </html>
