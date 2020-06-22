@@ -28,7 +28,8 @@ public class UserDatailsServiceImpl implements UserDetailsService {
 
 		if (usuario != null) {
 			builder = User.withUsername(username);
-			builder.disabled(false);
+			builder.disabled(!usuario.isVerificado());
+			
 			builder.password(usuario.getContrasenia());
 			builder.authorities(new SimpleGrantedAuthority("ROLE_USER"));
 

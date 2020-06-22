@@ -38,7 +38,7 @@ public class SeguridadConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers("/","/static/**","/img/**","/webjars/**","/css/**","/public/**","/auth/**","/productos")
 		.permitAll()
-		.antMatchers("/login","/registro").permitAll()
+		.antMatchers("/login","/registro","/activalo/**").permitAll()
 		.antMatchers("/registration").permitAll()
 		.anyRequest().authenticated().and().csrf().disable()
 		.formLogin().loginPage("/login").defaultSuccessUrl("/productos")

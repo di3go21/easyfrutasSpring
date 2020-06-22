@@ -27,5 +27,7 @@ public class Venta {
 	
 	private double precioTotal;
 	
+	private String direccion;
+	
 
 }

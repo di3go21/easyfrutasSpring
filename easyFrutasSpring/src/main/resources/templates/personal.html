@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>EasyFrutas Área Personal</title>
+</head>
+<body>
+
+	ventas usuario
+	<h1>Area personal</h1>
+
+	<h2 th:text="${usuario.nombre}">Bienvenido! ${usuario.nombre} </h2>
+		<p th:text="${usuario.id}"></p>
+		<p th:text="${usuario.nombre}"></p>
+		<p th:text="${usuario.apellido}"></p>
+		<p th:text="${usuario.email}"></p>
+		<p th:text="${usuario.telefono}"></p>
+		<p th:text="${usuario.direccion}"></p>
+	
+	
+	<ul>
+		<li th:each="venta : ${ventas}">
+
+			<p th:text="${venta.id}"></p>
+			<p th:text="${venta.usuario.id}+' '+ ${venta.usuario.nombre}"></p>
+			<p th:text="'direccion:'+${venta.direccion}"></p>
+			<ul>
+
+				<li th:each="articulo : ${venta.articulosPrecio}">
+					<p th:text="${articulo.key.nombre}"></p>
+					<p th:text="${articulo.value}"></p>
+				</li>
+
+			</ul>
+
+			<p th:text="'precio total:'+${venta.precioTotal}"></p>
+
+		</li>
+
+	</ul>
+
+
+</body>
+</html>

@@ -80,6 +80,7 @@ public class CompraController {
 		
 		venta.setUsuario(usu);
 		venta.setPrecioTotal(carr.getTotal());
+		venta.setDireccion(usu.getDireccion());
 		Venta compraHecha=ventaRepo.save(venta);
 		model.addAttribute("venta", compraHecha);
 		model.addAttribute("carrito", carr);

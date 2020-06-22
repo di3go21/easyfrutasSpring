@@ -40,7 +40,7 @@ public class Usuario implements Serializable{
 	private String direccion;
 	@NotNull
 	private String telefono;
-	private boolean active;
+	private boolean verificado;
 
 	private LocalDateTime fechaReg=LocalDateTime.now();
 	

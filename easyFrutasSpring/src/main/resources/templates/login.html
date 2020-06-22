@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,6 +14,8 @@
     <link href="css/login.css" rel="stylesheet">
   </head>
  <body class="text-center">
+ 
+ 
     <form class="form-signin" method="post" th:action="@{/login}">
   <img class="mb-4" src="/img/iconofrutas.png" alt="" width="200" height="200">
   <h1 class="h3 mb-3 font-weight-normal">Logueate!</h1>
@@ -25,9 +27,10 @@
             <p style="font-size: 20; color: #FF1C19;">Email o contraseña no válidas!.</p>
         </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Dale!</button>
+  <h4 sec:authorize="!isAuthenticated()"><a href="/registro">Si no tienes  cuenta puedes registrarte aquí!</a></h4>
   <p class="mt-5 mb-3 text-muted">&copy; EasyFrutas</p>
 </form>
-</body>
+
 
 </body>
 </html>

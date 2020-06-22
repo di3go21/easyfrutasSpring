@@ -26,7 +26,7 @@ public class EasyFrutasSpringApplication {
 			usu.setNombre("Juan diego");
 			usu.setApellido("Leiva Contreras");
 			usu.setContrasenia("password");
-			usu.setEmail("hola@test");
+			usu.setEmail("di3go21@gmail.com");
 			usu.setTelefono("916130484");
 			usu.setDireccion("corona verde ");
 			
@@ -39,10 +39,10 @@ public class EasyFrutasSpringApplication {
 			usuarioServicio.registrar(usu);
 			usuarioServicio.registrar(usu2);
 
-			Usuario usuario = new Usuario();
-			usuario.setEmail("abcdefg");
-			usuario.setContrasenia("123456");
+//			Usuario usuario = new Usuario();
+//			usuario.setEmail("abcdefg");
+//			usuario.setContrasenia("123456");
 
-			usuarioServicio.registrar(usuario);
+//			usuarioServicio.registrar(usuario);
 };
 }}

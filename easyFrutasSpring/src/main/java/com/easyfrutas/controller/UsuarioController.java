@@ -3,14 +3,17 @@ package com.easyfrutas.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.easyfrutas.model.Producto;
 import com.easyfrutas.model.Usuario;
+import com.easyfrutas.model.Venta;
 import com.easyfrutas.repositorios.ProductoRepositorio;
 import com.easyfrutas.repositorios.UsuarioRepositorio;
+import com.easyfrutas.repositorios.VentaRepositorio;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +25,9 @@ public class UsuarioController {
 	public UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	public ProductoRepositorio productoRepositorio;
+
+	@Autowired
+	public VentaRepositorio ventaRepo;
 
 	@GetMapping("/hola")
 	public String bienvenida(Model modelo) {
@@ -43,5 +49,17 @@ public class UsuarioController {
 		return "productos";
 	}
 
+	@GetMapping("/personal")
+	public String areaPersonal(Model model) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		Usuario usu = usuarioRepositorio.findByEmail(email);
+		List<Venta> listaVentas= ventaRepo.findByUsuario(usu);
+		
+		model.addAttribute("ventas",listaVentas);
+		model.addAttribute("usuario",usu);
+		
+		
+		return "personal";
+	}
 
 }
