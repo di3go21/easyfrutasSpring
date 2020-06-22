@@ -45,4 +45,5 @@ public class EasyFrutasSpringApplication {
 
 //			usuarioServicio.registrar(usuario);
 };
-}}
+}
+}

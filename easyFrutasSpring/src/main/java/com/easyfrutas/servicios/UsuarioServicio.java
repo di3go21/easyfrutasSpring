@@ -1,6 +1,8 @@
 package com.easyfrutas.servicios;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import com.easyfrutas.model.Carrito;
 import com.easyfrutas.model.Usuario;
 import com.easyfrutas.repositorios.CarritoRepositorio;
 import com.easyfrutas.repositorios.UsuarioRepositorio;
+import com.easyfrutas.util.Codificador;
 
 @Service
 public class UsuarioServicio {
@@ -44,6 +47,8 @@ public class UsuarioServicio {
 	public Usuario registrar(Usuario u) {
 
 		u.setContrasenia(passEncoder.encode(u.getContrasenia()));
+		u.setCodigoValidacion(Codificador.codifica(u.getEmail()));
+	
 		Usuario guardado = usuarioRepositorio.save(u);
 		enviaEmailDeRegistro(u);
 
@@ -64,7 +69,8 @@ public class UsuarioServicio {
 		mail.setNombreCompleto(u.getNombre()+' '+u.getApellido());
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("nombre", mail.getNombreCompleto());
-		model.put("codigo", passEncoder.encode((u.getEmail())));
+		model.put("codigo", u.getCodigoValidacion());
+		System.err.println("el codigo de validacion del email va a ser "+u.getCodigoValidacion());
 		mail.setModel(model);
 
 		try {
@@ -76,7 +82,11 @@ public class UsuarioServicio {
 		}
 
 	}
-
+	
+	public Usuario buscaPorCodigo(String codigo) {
+		return this.usuarioRepositorio.findByCodigoValidacion(codigo);
+	}
+	
 	public void guarda(Usuario usu) {
 		usuarioRepositorio.save(usu);
 	}

@@ -41,6 +41,7 @@ public class Usuario implements Serializable{
 	@NotNull
 	private String telefono;
 	private boolean verificado;
+	private String codigoValidacion;
 
 	private LocalDateTime fechaReg=LocalDateTime.now();
 	

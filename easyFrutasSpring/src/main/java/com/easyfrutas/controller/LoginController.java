@@ -73,18 +73,29 @@ public class LoginController {
 		
 	}
 	
-	@GetMapping("activalo/{email}")
-	public String acivalo(@PathVariable String email, Model modelo) {
+	@GetMapping("valida/{codigo}")
+	public String acivalo(@PathVariable String codigo, Model modelo) {
 		
 		System.err.println("###########################################3");
-		Usuario palo=usuServ.buscarPorEmail(email);
-		palo.setVerificado(true);
-		usuServ.guarda(palo);
+		Usuario palo=usuServ.buscaPorCodigo(codigo);
+		
+		
+		if (palo!=null) {
+			
+			
+			palo.setVerificado(true);
+		    usuServ.guarda(palo);
 		
 		modelo.addAttribute("usuario",palo);
 		
 		
 		return "activado";
+			
+		}
+		
+		
+		return "redirect:/productos";
+		
 	}
 	
 	

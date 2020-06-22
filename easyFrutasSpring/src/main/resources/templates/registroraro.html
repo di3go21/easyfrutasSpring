@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" 
+ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type="text/css">
+      body { 
+         background: #f5f5f5 !important; 
+     
+        } 
+        
+   </style>
+   <link rel="icon" href="img/iconofrutas.png" type="image/icon type">
+    <title>Bievenido a EasyFrutas!!</title>
+    
+  </head>
+
+  <body class="" >
+  <div class="container">
+    <nav class="navbar  sticky-top navbar-expand-lg navbar-light bg-light rounded ">
+       <h3> <a class="navbar-brand " href="#"><img width="40px" src="img/iconofrutas.png" alt="" >EasyFrutas.com</a></h3> 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample09">
+          <ul class="navbar-nav mr-auto">
+          <li class="nav-item active" sec:authorize="isAuthenticated()">
+						<a class="nav-link " th:href="@{/}">Inicio</a>
+					</li>
+            <li class="nav-item active" sec:authorize="!isAuthenticated()">
+              <a class="nav-link" href="/login">Entra!<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active" sec:authorize="isAuthenticated()">
+						<a class="nav-link " th:href="@{/personal}">Área Personal</a>
+					</li>
+            <li class="nav-item active" sec:authorize="!isAuthenticated()">
+              <a class="nav-link" href="/registro">Registrate</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link " href="/carrito">Carrito</a>
+            </li>
+            <li class="nav-item active" sec:authorize="isAuthenticated()">
+						<a class="nav-link " th:href="@{/logout}">Salir</a>
+					</li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mas...</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown09">
+
+                <a class="dropdown-item" href="#">Privacidad</a>
+                <a class="dropdown-item" href="#">Sobre Nosotros</a>
+                <a class="dropdown-item" href="#">Contacto</a>
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-md-0" action="http://google.es">
+            <input class="form-control" type="text" placeholder="Busca una fruta!" aria-label="Search">
+          </form>
+        </div>
+      </nav>
+    </div>
+      <div class="container">
+        <div class="py-5 text-center">
+          <img class="d-block mx-auto mb-4" src="img/iconofrutas.png" alt="" width="72" height="72">
+          <h2>Registro</h2>
+          <p class="lead">Después de rellenar tus datos te enviaremos un email para que confirmes u registro!.</p>
+        </div>
+  
+        <div class="row">
+          
+          <div class="col-md-8 mx-auto order-md-1 ">
+            <h4 class="mb-3">Datos de Usuario</h4>
+            <form class="needs-validation" novalidate 	method="POST"  th:action="@{/registro}" th:object="${usuario}">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName">Nombre</label>
+                  <input type="text" class="form-control" th:field="*{nombre}" name="nombre" id="firstName" placeholder="Pepito" value="" required>
+                  <div class="invalid-feedback">
+                    El nombre es obligatorio.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName">Apellido</label>
+                  <input type="text" class="form-control" th:field="*{apellido}" name="apellido" id="lastName" placeholder="perez" value="" required>
+                  <div class="invalid-feedback">
+                    El apellido es obligatorio.
+                  </div>
+                </div>
+              </div>
+  
+            
+              <div class="mb-3">
+                <label for="email">Email </label>
+                <input type="email" name="email" class="form-control" id="email" th:field="*{email}" placeholder="pepe@google.com">
+                <div class="invalid-feedback">
+                  El email no es válido.
+                </div>
+              </div>
+              
+               <div class="mb-3">
+                <label for="contrasenia">Contraseña </label>
+                <input type="password" name="contrasenia" th:field="*{contrasenia}" class="form-control" id="contrasenia" placeholder="">
+                <div class="invalid-feedback">
+                  Contraseña no válida.
+                </div>
+              </div>
+  
+              <div class="mb-3">
+                <label for="address">Dirección Completa</label>
+                <input type="text" name="direccion" class="form-control" th:field="*{direccion}" id="address" placeholder="Calle de la felicidad 69" required>
+                <div class="invalid-feedback">
+                  Ingresa una dirección válida.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="telefono">Telefono </label>
+                <input type="text" name="telefono" class="form-control" th:field="*{telefono}" id="telefono" placeholder="916130484">
+                <div class="invalid-feedback">
+                  El teléfono no es válido.
+                </div>
+              </div>
+  
+  
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="country">País</label>
+                  <select class="custom-select d-block w-100" id="country" required>
+                    <option selected>España</option>
+                    <option disabled>proximamente más...</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid country.
+                  </div>
+                </div>
+               
+              
+              </div>
+            
+  
+              
+              <hr class="mb-4">
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Registrarse</button>
+            </form>
+          </div>
+        </div>
+  
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+          <p class="mb-1">&copy; EasyFrutas <img class="d-block mx-auto mb-4" src="img/iconofrutas.png" alt="" width="40" ></p>
+          <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+          </ul>
+        </footer>
+      </div>
+  
+     
+      <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+  
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+  
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+      </script>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

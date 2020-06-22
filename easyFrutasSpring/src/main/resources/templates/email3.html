@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="utf-8">
+   
+ 
+    
+
+    <!-- Bootstrap core CSS-->
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width : 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+   
+        
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/form-validation.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container">
+        <nav class="navbar  sticky-top navbar-expand-lg navbar-light bg-light rounded ">
+            <h3> <a class="navbar-brand " href="#"><img width="40px" th:src="|cid:${logo}|" alt="">EasyFrutas.com</a>
+            </h3>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09"
+                aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample09">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" >
+                        <a class="nav-link " href="http://localhost:8080/">Inicio</a>
+                          
+                    </li>
+                  
+                    <li class="nav-item active" >
+                        <a class="nav-link " href="http://localhost:8080/personal">Área Personal</a>
+                    </li>
+                  
+                    <li class="nav-item active">
+                        <a class="nav-link " href="http://localhost:8080/carrito">Carrito</a>
+                    </li>
+                    
+                  
+                </ul>
+                <form class="form-inline my-2 my-md-0" action="http://localhost:8080/buscar" method="GET">
+                    <input class="form-control" name="token" type="text" placeholder="Busca una fruta!" aria-label="Search">
+                </form>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" th:src="|cid:${logo}|" alt="" width="72" height="72">
+            <h2 th:text="'Bienvenido a EasyFrutas '+${nombre}+'!!!'">Bienvenido a EasyFrutas!!!</h2>
+            <h3>Para verificar tu cuenta solo tienes que hacer click aquí abajo y podrás disfrutar de nuestra frutita buena!</h3>
+            <h3><a th:href="'http://localhost:8080/valida/'+${codigo}">QUIERO VALIDAR MI CUENTA!</a></h3>
+
+        </div>
+
+
+       
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; EasyFrutas</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacidad</a></li>
+            <li class="list-inline-item"><a href="#">Terminos</a></li>
+            <li class="list-inline-item"><a href="#">Soporte</a></li>
+        </ul>
+    </footer>
+
+    <script th:inline="javascript">
+
+    </script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
