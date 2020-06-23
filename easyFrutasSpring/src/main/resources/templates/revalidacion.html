@@ -10,7 +10,7 @@
 <meta name="author"
 	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Jekyll v4.0.1">
-<title>Registro Hecho!</title>
+<title>Validacion de cuentas</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="canonical"
@@ -44,7 +44,7 @@
 <body class="bg-light">
 <div class="container">
     <nav class="navbar  sticky-top navbar-expand-lg navbar-light bg-light rounded ">
-       <h3> <a class="navbar-brand "  th:href="@{/}"><img width="40px" src="img/iconofrutas.png" alt="" >EasyFrutas.com</a></h3> 
+       <h3> <a class="navbar-brand "  th:href="@{/}"><img width="40px" th:src="@{/img/iconofrutas.png}" alt="" >EasyFrutas.com</a></h3> 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -79,26 +79,31 @@
               </div>
             </li>
           </ul>
-          <form class="form-inline my-2 my-md-0" method="get" th:action="@{/buscar}">
+        <form class="form-inline my-2 my-md-0" method="get" th:action="@{/buscar}">
             <input class="form-control" name="query" type="text" placeholder="Busca una fruta!" aria-label="Search">
           </form>
         </div>
       </nav>
     </div>
-	<div class="container text-center">
+	<div class="container text-center" style="margin-top: 30px;">
 		<div class="py-5 text-center">
-			<img class="d-block mx-auto mb-4" src="/img/iconofrutas.png" alt=""
+			<img class="d-block mx-auto " src="/img/iconofrutas.png" alt=""
 				width="72" height="72">
-				
-				
-			<h2 th:text="'Enhorabuena '+${usuario.email}+'!'"></h2>
-			<h2>Tu Cuenta ha sido activada!!!!!!</h2>
-			<h3 ><a href="/login">YA PUEDES EMPEZAR A COMPRAR TU FRUTITA BUENA EN EASYFRUTAS.ES!!!!</a></h3>
-		
+			
+			<h1 >Sistema de validación</h1>
+			<hr/>
+			<h3 th:text="${mensaje}" >Mensaje de resolucion</h3>
+			
+			<hr/>
+	
+			
+	
 		</div>
 
 	
-		
+			<h3 class="lead ">
+				Si quieres volver a la pagina principal <a href="/">pincha aquí</a>.
+			</h3>
 
 	</div>
 
@@ -111,10 +116,7 @@
 		</ul>
 	</footer>
 	
-	<script th:inline="javascript">
-		
-	</script>
-
+	
 
 
 
@@ -127,5 +129,3 @@
 
 </body>
 </html>
-
-

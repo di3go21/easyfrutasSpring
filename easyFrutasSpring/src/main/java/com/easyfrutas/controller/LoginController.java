@@ -28,6 +28,8 @@ import com.easyfrutas.servicios.UsuarioServicio;
 public class LoginController {
 	@Autowired
 	UsuarioServicio usuServ;
+	@Autowired
+	EmailService emailService;
 	
 	@GetMapping("/login")
 	public String login() {
@@ -64,7 +66,7 @@ public class LoginController {
 		
 		if (palo!=null) {
 			System.err.println("EL USUARIO EXISTE");
-			return "registro";
+			return "redirect:/registro";
 			
 		}
 		usuario.setVerificado(false);
@@ -75,14 +77,19 @@ public class LoginController {
 		
 	}
 	
-	@GetMapping("valida/{codigo}")
+	@GetMapping("/valida/{codigo}")
 	public String acivalo(@PathVariable String codigo, Model modelo) {
 		
 		System.err.println("###########################################3");
 		Usuario palo=usuServ.buscaPorCodigo(codigo);
 		
+	
 		
 		if (palo!=null) {
+			if(palo.isVerificado()) {
+				modelo.addAttribute("mensaje","El usuario con email "+palo.getEmail()+" ya está verificado.");
+				return "revalidacion";
+			}
 			
 			
 			palo.setVerificado(true);
@@ -100,13 +107,36 @@ public class LoginController {
 		
 	}
 	
-	@PostMapping("valida/otravez")
-	public String reenvioVal(@RequestParam("email") String email) {
+	@PostMapping("/valida/otravez")
+	public String reenvioVal(@RequestParam("email") String email, Model model) {
 		
-		//mandamos emailk
+		System.err.println(email);
+		Usuario usu= usuServ.buscarPorEmail(email);
+		String mensaje;
+		if(usu==null)
+			mensaje="El usuario con email " +email+" no se encuentra en nuestra base de datos. Registrese otra vez o contacte con el soporte de la web.";
+		else {
+			
+	
+				if (!usu.isVerificado()) {
+					usuServ.enviaEmailDeRegistro(usu);
+					mensaje="Se ha reenviado el email con el link de validación a da direccion "+email+". Revise su correo electrónico";
+					
+				}else {
+					mensaje="El usuario con email "+email+" ya está verificado. Utilice su contraseña para entrar "
+							+ "o cambie su contraseña desde el formulario de login";
+				}
 		
 		
-		return "validacionEnviada";
+		
+		
+		
+		}
+		
+		model.addAttribute("mensaje",mensaje);
+		
+		
+		return "revalidacion";
 	}
 	
 	

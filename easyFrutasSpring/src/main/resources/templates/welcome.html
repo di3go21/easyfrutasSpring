@@ -15,34 +15,9 @@
 </head>
 <body>
 
-<div class="col-lg-4" th:each="usuario : ${usuarios}">
+WELCOME
 
-				<div class="panel panel-default">
-<!-- 					<a th:href="@{/public/producto/{id}(id=${producto.id})}" -->
-<!-- 						style="display: none"></a> -->
-					<div class="panel-heading">
-						<span th:text="${usuario.nombre}">NOMBRE DEL PRODUCTO</span>
-					</div>
-					<div class="panel-body">
-						<h2 th:text="${usuario.apellido}"  ></h2>
-					</div>
-					<div class="panel-footer">
-						<div class="row">
-							<div class="col-md-6 precio">
-								<span class="precio"
-									th:text="${#temporals.format(usuario.fechaReg, 'EEEE L y hh:mm:ss a')}">asdasdasd</span>
-							</div>
-<!-- 							<div class="col-md-6" sec:authorize="isAuthenticated()" -->
-<!-- 								th:if="${#authentication.name != producto.propietario.email}"> -->
-<!-- 								<a th:href="@{/app/carrito/add/{id}(id=${producto.id})}" class="pull-right btn btn-success btn-product"><span -->
-<!-- 									class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Comprar</a> -->
-<!-- 							</div> -->
-						</div>
-					</div>
-				</div>
-
-			</div>
-
+			
 
 </body>
 </html>

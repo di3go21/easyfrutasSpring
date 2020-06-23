@@ -58,7 +58,7 @@
               </div>
             </li>
           </ul>
-        <form class="form-inline my-2 my-md-0" method="get" th:action="@{/buscar}">
+         <form class="form-inline my-2 my-md-0" method="get" th:action="@{/buscar}">
             <input class="form-control" name="query" type="text" placeholder="Busca una fruta!" aria-label="Search">
           </form>
         </div>
@@ -66,85 +66,51 @@
     </div>
       <div class="container mt-5">
         <div class="py-5 text-center">
-          <img class="d-block mx-auto mb-4" src="img/iconofrutas.png" alt="" width="72" height="72">
-          <h2>Registro</h2>
-          <p class="lead">Después de rellenar tus datos te enviaremos un email para que confirmes u registro!.</p>
+          <img class="d-block mx-auto mb-4" th:src="@{/img/iconofrutas.png}" alt="" width="72" height="72">
+          <h2>Cambio de Contraseña</h2>
+          <p class="lead">Rellena el formulario adecuadamente para cambiar la contraseña.</p>
         </div>
   
         <div class="row">
           
           <div class="col-md-8 mx-auto order-md-1 ">
-            <h4 class="mb-3">Datos de Usuario</h4>
-            <form class="needs-validation" novalidate 	method="POST"  th:action="@{/registro}" th:object="${usuario}">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="firstName">Nombre</label>
-                  <input type="text" class="form-control" th:field="*{nombre}" name="nombre" id="firstName" placeholder="Pepito" value="" required>
-                  <div class="invalid-feedback">
-                    El nombre es obligatorio.
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="lastName">Apellido</label>
-                  <input type="text" class="form-control" th:field="*{apellido}" name="apellido" id="lastName" placeholder="perez" value="" required>
-                  <div class="invalid-feedback">
-                    El apellido es obligatorio.
-                  </div>
-                </div>
-              </div>
-  
+            <h4 class="mb-3">Datos de contraseña</h4>
+            <form class="needs-validation" novalidate 	method="POST"  th:action="@{/personal/cambiarPass}" >
             
-              <div class="mb-3">
-                <label for="email">Email </label>
-                <input type="email" name="email" class="form-control" id="email" th:field="*{email}" placeholder="pepe@google.com">
-                <div class="invalid-feedback">
-                  El email no es válido.
-                </div>
-              </div>
-              
+               
                <div class="mb-3">
-                <label for="contrasenia">Contraseña </label>
-                <input type="password" name="contrasenia" th:field="*{contrasenia}" class="form-control" id="contrasenia" placeholder="">
+                <label for="contrasenia">Contraseña antigua </label>
+                <input type="password" name="vieja"  class="form-control" id="contrasenia" placeholder="Contraseña antigua">
                 <div class="invalid-feedback">
                   Contraseña no válida.
                 </div>
               </div>
-  
-              <div class="mb-3">
-                <label for="address">Dirección Completa</label>
-                <input type="text" name="direccion" class="form-control" th:field="*{direccion}" id="address" placeholder="Calle de la felicidad 69" required>
-                <div class="invalid-feedback">
-                  Ingresa una dirección válida.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="telefono">Telefono </label>
-                <input type="text" name="telefono" class="form-control" th:field="*{telefono}" id="telefono" placeholder="916130484">
-                <div class="invalid-feedback">
-                  El teléfono no es válido.
-                </div>
-              </div>
-  
-  
               <div class="row">
-                <div class="col-md-5 mb-3">
-                  <label for="country">País</label>
-                  <select class="custom-select d-block w-100" id="country" required>
-                    <option selected>España</option>
-                    <option disabled>proximamente más...</option>
-                  </select>
+                <div class="col-md-6 mb-3">
+                  <label for="firstName">Contraseña nueva</label>
+                  <input type="password" class="form-control"  name="nueva1" id="firstName" placeholder="Nueva Contraseña" value="" required>
                   <div class="invalid-feedback">
-                    Please select a valid country.
+                    Es obligatorio.
                   </div>
                 </div>
-               
-              
+                <div class="col-md-6 mb-3">
+                  <label for="lastName">Repite contraseña nueva</label>
+                  <input type="password" class="form-control"  name="nueva2" id="lastName" placeholder="Nueva Contraseña" value="" required>
+                  <div class="invalid-feedback">
+                    Es obligatorio.
+                  </div>
+                </div>
               </div>
+  
             
+  
   
               
               <hr class="mb-4">
-              <button class="btn btn-primary btn-lg btn-block" type="submit">Registrarse</button>
+              <div style="font-size: 20; color: #FF1C19;" th:if="${mensaje != null}" align="center" >
+            <p style="font-size: 20; color: #FF1C19;" th:text="${mensaje}">las contraseñas no concuerdan.</p>
+        </div>
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Confirmar Cambio</button>
             </form>
           </div>
         </div>

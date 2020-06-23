@@ -44,7 +44,7 @@
 <body class="bg-light">
 <div class="container">
     <nav class="navbar  sticky-top navbar-expand-lg navbar-light bg-light rounded ">
-       <h3> <a class="navbar-brand " href="#"><img width="40px" src="img/iconofrutas.png" alt="" >EasyFrutas.com</a></h3> 
+       <h3> <a class="navbar-brand " th:href="@{/}"><img width="40px" src="img/iconofrutas.png" alt="" >EasyFrutas.com</a></h3> 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -79,8 +79,8 @@
               </div>
             </li>
           </ul>
-          <form class="form-inline my-2 my-md-0" action="http://google.es">
-            <input class="form-control" type="text" placeholder="Busca una fruta!" aria-label="Search">
+       <form class="form-inline my-2 my-md-0" method="get" th:action="@{/buscar}">
+            <input class="form-control" name="query" type="text" placeholder="Busca una fruta!" aria-label="Search">
           </form>
         </div>
       </nav>
@@ -92,18 +92,18 @@
           
           <div class="col-md-12 order-md-1 mt-4 ">
             <h4 class="mb-3 ml-5">Datos de Usuario</h4>
-            <form class="needs-validation" novalidate 	method="POST"  th:action="@{/modificarusuario}" th:object="${usuario}">
+            <form class="needs-validation " novalidate 	method="POST"  th:action="@{/personal/cambios}" th:object="${usuario}">
               <div class="row d-flex justify-content-around">
                 <div class="col-md-4 mb-3">
                   <label for="firstName">Nombre</label>
-                  <input type="text" class="form-control"  disabled="disabled" th:field="*{nombre}" name="nombre" id="firstName" placeholder="Pepito" value="" required>
+                  <input type="text" class="form-control swap"  disabled th:field="*{nombre}" name="nombre" id="firstName" placeholder="Pepito" value="" required>
                   <div class="invalid-feedback">
                     El nombre es obligatorio.
                   </div>
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="lastName">Apellido</label>
-                  <input type="text" class="form-control"  disabled="disabled" th:field="*{apellido}" name="apellido" id="lastName" placeholder="perez" value="" required>
+                  <input type="text" class="form-control swap"  disabled th:field="*{apellido}" name="apellido" id="lastName" placeholder="perez" value="" required>
                   <div class="invalid-feedback">
                     El apellido es obligatorio.
                   </div>
@@ -113,14 +113,14 @@
             <div class="row d-flex justify-content-around">
               <div class="col-md-4 mb-3">
                 <label for="email">Email </label>
-                <input type="email" name="email" disabled="disabled" class="form-control" id="email" th:field="*{email}" placeholder="pepe@google.com">
+                <input type="email" name="email" disabled class="form-control" id="email" th:field="*{email}" placeholder="pepe@google.com">
                 <div class="invalid-feedback">
                   El email no es válido.
                 </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="telefono">Telefono </label>
-                <input type="text" name="telefono"  disabled="disabled" class="form-control" th:field="*{telefono}" id="telefono" placeholder="916130484">
+                <input type="text" name="telefono"  disabled  class="form-control swap" th:field="*{telefono}" id="telefono" placeholder="916130484">
                 <div class="invalid-feedback">
                   El teléfono no es válido.
                 </div>
@@ -128,9 +128,9 @@
               </div>
                
   <div class="row d-flex justify-content-around">
-              <div class=" col-md-8 mx-auto">
+              <div class=" col-md-10 mx-auto">
                 <label for="address">Dirección Completa</label>
-                <input type="text" name="direccion"  disabled="disabled" class="form-control" th:field="*{direccion}" id="address" placeholder="Calle de la felicidad 69" required>
+                <input type="text" name="direccion"  disabled class="form-control swap" th:field="*{direccion}" id="address" placeholder="Calle de la felicidad 69" required>
                 <div class="invalid-feedback">
                   Ingresa una dirección válida.
                 </div>
@@ -143,14 +143,37 @@
   
               
               <hr class="mb-4">
-              <button disabled="disabled" class="col-md-5 mx-auto btn btn-primary  btn-lg btn-block" type="submit">Modificar datos</button>
+               <div class="container row d-flex  justify-content-around">
+             
+              <button  id="botonEnviar" class=" btn btn-success" style="display: none" type="submit">Enviar nuevos datos</button>
+                <a class=" btn btn-primary " id="fakebutton" href="javascript:void(0);" 
+                onClick="$('#fakebutton').hide();$('.swap').prop('disabled', false)   ; $('#botonEnviar').show()" role="button">Modificar datos</a>
+              <a class=" btn btn-danger " th:href="@{/personal/cambiarPass}" role="button">Cambiar Contraseña</a>
+           	</div>
             </form>
           </div>
         </div>
 	
 	</div>
 	
-	<div class="container mt-5">
+	<div th:if="${ventas.size() == 0}" class="container">
+		<div class="py-5 text-center mt-5">
+			<img class="d-block mx-auto mb-4" src="/img/iconofrutas.png" alt=""
+				width="72" height="72">
+			<h2 >Aún no tienes compras!</h2>
+			
+			<h2 class="lead"><a
+					href="/">
+				Vuelve a la pagina principal para añadir frutitas a tu cesta y poder hacer una comprar! </a>.
+			</h2>
+		</div>
+	</div>
+
+
+	
+	<div th:unless="${ventas.size() == 0}" class="container mt-5">
+	
+	
         <h2>Todas Las Compras</h2>
     <div class="accordion" id="accordionExample">
     <div class="card"  th:each="venta,count : ${ventas}">
@@ -218,8 +241,16 @@
 		</ul>
 	</footer>
 	
-	<script th:inline="javascript">
+	<script >
 		
+	
+	function habilita(){
+			  var elements = document.getElementsByClassName("swap");
+			  elements.classList.remove("mystyle");
+		
+		
+		
+	}
 	</script>
 
 

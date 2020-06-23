@@ -44,7 +44,7 @@
 <body class="bg-light">
 <div class="container">
     <nav class="navbar  sticky-top navbar-expand-lg navbar-light bg-light rounded ">
-       <h3> <a class="navbar-brand " href="#"><img width="40px" th:src="@{/img/iconofrutas.png}" alt="" >EasyFrutas.com</a></h3> 
+       <h3> <a class="navbar-brand "  th:href="@{/}"><img width="40px" th:src="@{/img/iconofrutas.png}" alt="" >EasyFrutas.com</a></h3> 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -79,8 +79,8 @@
               </div>
             </li>
           </ul>
-          <form class="form-inline my-2 my-md-0" action="http://google.es">
-            <input class="form-control" type="text" placeholder="Busca una fruta!" aria-label="Search">
+         <form class="form-inline my-2 my-md-0" method="get" th:action="@{/buscar}">
+            <input class="form-control" name="query" type="text" placeholder="Busca una fruta!" aria-label="Search">
           </form>
         </div>
       </nav>
@@ -96,8 +96,9 @@
 			<h3 >Por favor, también mira en tu bandeja de correo no deseado o spam por si ha sido redireccionado por el sistema de correo de tu cuenta </h3>
 			<hr/>
 			<h4>Introduce tu email si quieres volver a recibir el email de validación </h4>
-			<form class="form-inline my-2 my-md-0" th:action="@{/validacion/repetir">
+			<form class="form-inline my-2 my-md-0" method="post" th:action="@{/valida/otravez}">
             <input class="form-control mx-auto" name="email" type="email" placeholder="email@usuario" aria-label="Search">
+            
           </form>
 	
 		</div>

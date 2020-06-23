@@ -43,6 +43,26 @@ public class UsuarioServicio {
 		return usuarioRepositorio.findFirstByEmail(email);
 
 	}
+	
+	public Usuario cambiaPass(String email,String vieja,String nueva) {
+		Usuario loco = buscarPorEmail(email);
+		
+		
+		
+			
+			loco.setContrasenia(passEncoder.encode(nueva));
+			loco= usuarioRepositorio.save(loco);
+			System.err.println(loco.getContrasenia()+" esta es la nueva");
+			System.err.println(passEncoder.encode(nueva));
+			
+			
+				System.err.println("TODO BIEN");
+				return loco;
+	
+		
+		
+	}
+	
 
 	public Usuario registrar(Usuario u) {
 
@@ -60,10 +80,10 @@ public class UsuarioServicio {
 		return guardado;
 	}
 
-	private void enviaEmailDeRegistro(Usuario u) {
+	public void enviaEmailDeRegistro(Usuario u) {
 
 		Mail mail = new Mail();
-		mail.setFrom("noReply@gmail.com");
+		mail.setFrom("easyfrutas@gmail.com");
 		mail.setTo(u.getEmail());
 		mail.setSubject("Confirma Tu Registro en EasyFrutas");
 		mail.setNombreCompleto(u.getNombre()+' '+u.getApellido());
@@ -87,8 +107,8 @@ public class UsuarioServicio {
 		return this.usuarioRepositorio.findByCodigoValidacion(codigo);
 	}
 	
-	public void guarda(Usuario usu) {
-		usuarioRepositorio.save(usu);
+	public Usuario guarda(Usuario usu) {
+		return usuarioRepositorio.save(usu);
 	}
 
 }
