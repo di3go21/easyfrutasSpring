@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.easyfrutas.email.EmailService;
 import com.easyfrutas.model.Carrito;
@@ -96,6 +98,15 @@ public class LoginController {
 		
 		return "redirect:/productos";
 		
+	}
+	
+	@PostMapping("valida/otravez")
+	public String reenvioVal(@RequestParam("email") String email) {
+		
+		//mandamos emailk
+		
+		
+		return "validacionEnviada";
 	}
 	
 	

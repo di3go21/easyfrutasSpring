@@ -40,6 +40,7 @@ public class CarritoController {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		Usuario usu = usure.findByEmail(email);
 		Carrito carr = carrRe.findByUsuario(usu);
+				
 		
 		mod.addAttribute("carrito", carr);
 		return "carrito";

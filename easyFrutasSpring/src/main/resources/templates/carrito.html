@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
- xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -12,7 +12,8 @@
 	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Jekyll v4.0.1">
 <title>Confirma la compra!</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.5/examples/checkout/">
 
@@ -42,51 +43,74 @@
 <link href="/css/form-validation.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-<div class="container">
-    <nav class="navbar  sticky-top navbar-expand-lg navbar-light bg-light rounded ">
-       <h3> <a class="navbar-brand " href="#"><img width="40px" src="img/iconofrutas.png" alt="" >EasyFrutas.com</a></h3> 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+	<div class="container">
+		<nav
+			class="navbar  sticky-top navbar-expand-lg navbar-light bg-light rounded ">
+			<h3>
+				<a class="navbar-brand " href="#"><img width="40px"
+					src="img/iconofrutas.png" alt="">EasyFrutas.com</a>
+			</h3>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarsExample09" aria-controls="navbarsExample09"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-        <div class="collapse navbar-collapse" id="navbarsExample09">
-          <ul class="navbar-nav mr-auto">
-          <li class="nav-item active" sec:authorize="isAuthenticated()">
+			<div class="collapse navbar-collapse" id="navbarsExample09">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active" sec:authorize="isAuthenticated()">
 						<a class="nav-link " th:href="@{/}">Inicio</a>
 					</li>
-            <li class="nav-item active" sec:authorize="!isAuthenticated()">
-              <a class="nav-link" href="/login">Entra!<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active" sec:authorize="isAuthenticated()">
+					<li class="nav-item active" sec:authorize="!isAuthenticated()">
+						<a class="nav-link" href="/login">Entra!<span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item active" sec:authorize="isAuthenticated()">
 						<a class="nav-link " th:href="@{/personal}">Área Personal</a>
 					</li>
-            <li class="nav-item active" sec:authorize="!isAuthenticated()">
-              <a class="nav-link" href="/registro">Registrate</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link " href="/carrito">Carrito</a>
-            </li>
-            <li class="nav-item active" sec:authorize="isAuthenticated()">
+					<li class="nav-item active" sec:authorize="!isAuthenticated()">
+						<a class="nav-link" href="/registro">Registrate</a>
+					</li>
+					<li class="nav-item active"><a class="nav-link "
+						href="/carrito">Carrito</a></li>
+					<li class="nav-item active" sec:authorize="isAuthenticated()">
 						<a class="nav-link " th:href="@{/logout}">Salir</a>
 					</li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mas...</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown09">
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="http://example.com"
+						id="dropdown09" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">Mas...</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown09">
 
-                <a class="dropdown-item" href="#">Privacidad</a>
-                <a class="dropdown-item" href="#">Sobre Nosotros</a>
-                <a class="dropdown-item" href="#">Contacto</a>
-              </div>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-md-0" action="http://google.es">
-            <input class="form-control" type="text" placeholder="Busca una fruta!" aria-label="Search">
-          </form>
-        </div>
-      </nav>
-    </div>
+							<a class="dropdown-item" href="#">Privacidad</a> <a
+								class="dropdown-item" href="#">Sobre Nosotros</a> <a
+								class="dropdown-item" href="#">Contacto</a>
+						</div></li>
+				</ul>
+				<form class="form-inline my-2 my-md-0" action="http://google.es">
+					<input class="form-control" type="text"
+						placeholder="Busca una fruta!" aria-label="Search">
+				</form>
+			</div>
+		</nav>
+	</div>
 
-	<div class="container">
+
+
+	<div th:if="${carrito == null}" class="container">
+		<div class="py-5 text-center mt-5">
+			<img class="d-block mx-auto mb-4" src="/img/iconofrutas.png" alt=""
+				width="72" height="72">
+			<h2 >Carrito de la compra</h2>
+			<h2 class="lead">Tu carrito está vacío!</h2>
+			<h2 class="lead"><a
+					href="/">
+				Vuelve a la pagina principal para añadir frutitas a tu compra </a>.
+			</h2>
+		</div>
+	</div>
+
+
+	<div th:unless="${carrito == null}" class="container">
 		<div class="py-5 text-center">
 			<img class="d-block mx-auto mb-4" src="/img/iconofrutas.png" alt=""
 				width="72" height="72">
@@ -97,6 +121,8 @@
 				Si quieres volver a la pagina principal <a href="/">pincha aquí</a>.
 			</h2>
 		</div>
+
+
 
 		<div class="row">
 			<div class="col-md-10 mx-auto order-md-2 mb-4">
@@ -138,20 +164,23 @@
 												th:max="${articulo.key.stock}"><span
 												style="margin-left: 5px">kg</span>
 											<button type="submit" class="btn btn-success ml-1">Actualizar</button>
-											<a th:href="'/carrito/eliminar/'+${articulo.key.id}" class="btn btn-danger">X</a>
-												
-											
-												</div>
+											<a th:href="'/carrito/eliminar/'+${articulo.key.id}"
+												class="btn btn-danger">X</a>
+
+
+										</div>
 
 
 
 
 									</form>
-									
+
 								</div>
 								<div class="col-sm-1 text-right mt-3">
-									
-<span class="text-muted " th:with="result=${articulo.key.precio * articulo.value}" th:text="${T(com.easyfrutas.util.Numeros).redondeaAdos(result)}+'€'">100€</span> 
+
+									<span class="text-muted "
+										th:with="result=${articulo.key.precio * articulo.value}"
+										th:text="${T(com.easyfrutas.util.Numeros).redondeaAdos(result)}+'€'">100€</span>
 								</div>
 							</div>
 						</div>
@@ -178,23 +207,31 @@
 
 		</div>
 
-		<footer class="my-5 pt-5 text-muted text-center text-small">
-			<p class="mb-1">&copy; EasyFrutas</p>
-			<ul class="list-inline">
-				<li class="list-inline-item"><a href="#">Privacidad</a></li>
-				<li class="list-inline-item"><a href="#">Terminos</a></li>
-				<li class="list-inline-item"><a href="#">Soporte</a></li>
-			</ul>
-		</footer>
+
 	</div>
-	
+	<footer class="my-5 pt-5 text-muted text-center text-small">
+		<p class="mb-1">&copy; EasyFrutas</p>
+		<ul class="list-inline">
+			<li class="list-inline-item"><a href="#">Privacidad</a></li>
+			<li class="list-inline-item"><a href="#">Terminos</a></li>
+			<li class="list-inline-item"><a href="#">Soporte</a></li>
+		</ul>
+	</footer>
 
 
 
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
- 
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
 
 	<script src="/js/formvalidation.js"></script>
 </body>

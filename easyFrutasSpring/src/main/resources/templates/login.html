@@ -23,8 +23,10 @@
   <input type="email" name="username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
   <label for="inputPassword" class="sr-only">Password</label>
   <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
-		<div align="center" th:if="${param.error}">
+		<div style="font-size: 20; color: #FF1C19;" align="center" th:if="${param.error}">
             <p style="font-size: 20; color: #FF1C19;">Email o contraseña no válidas!.</p>
+             <p style="font-size: 20; color: #FF1C19;">Si te acabas de registrar tienes que </p>
+             <p><a  style="font-weight:bolder; font-size: 20; color: #FF1C19;"href="/info/validacion">validar tu cuenta</a></p>
         </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Dale!</button>
   <h4 sec:authorize="!isAuthenticated()"><a href="/registro">Si no tienes  cuenta puedes registrarte aquí!</a></h4>
