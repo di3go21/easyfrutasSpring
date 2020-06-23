@@ -31,10 +31,10 @@ public class EasyFrutasSpringApplication {
 			usu.setDireccion("corona verde ");
 			
 			Usuario usu2 = new Usuario();
-			usu2.setNombre("Almu diego");
-			usu2.setApellido("Asenjo tapia");
+			usu2.setNombre("Almudena");
+			usu2.setApellido("Asenjo Tapia");
 			usu2.setContrasenia("password");
-			usu2.setEmail("hola@test2");
+			usu2.setEmail("almu_9089sssa3@hotmaissl.com");
 			usu2.setTelefono("916130484");
 			usuarioServicio.registrar(usu);
 			usuarioServicio.registrar(usu2);

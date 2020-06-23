@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.easyfrutas.model.Carrito;
+import com.easyfrutas.model.PrecioCoste;
 import com.easyfrutas.model.Usuario;
 import com.easyfrutas.model.Venta;
 import com.easyfrutas.repositorios.CarritoRepositorio;
+import com.easyfrutas.repositorios.PrecioCosteRepositorio;
 import com.easyfrutas.repositorios.ProductoRepositorio;
 import com.easyfrutas.repositorios.UsuarioRepositorio;
 import com.easyfrutas.repositorios.VentaRepositorio;
+import com.easyfrutas.util.Numeros;
 
 @Controller
 public class CompraController {
@@ -30,6 +33,8 @@ public class CompraController {
 	ProductoRepositorio prodRepo;
 	@Autowired
 	VentaRepositorio ventaRepo;
+	@Autowired
+	PrecioCosteRepositorio prodPrecioRepo;
 	
 	@GetMapping("/compra")
 	public String getResumen(Model model) {
@@ -67,13 +72,18 @@ public class CompraController {
 		
 		
 		carr.getLista().forEach((prod,cantidad)->{
-			
+			PrecioCoste precioCoste;
 			double coste= prod.getPrecio()*cantidad;
 			System.err.println(coste+ " coste antes del redondeo");
-			coste = (double) Math.round(coste * 100) / 100;
+			//coste = (double) Math.round(coste * 100) / 100;
+			coste = Numeros.redondeaAdos(coste);
 			System.err.println(coste+ " coste despues del redondeo");
+			precioCoste=new PrecioCoste();
+			precioCoste.setPrecioInstante(prod.getPrecio());
+			precioCoste.setCoste(coste);
+			precioCoste=prodPrecioRepo.save(precioCoste);
 			
-			venta.getArticulosPrecio().put(prod,coste);
+			venta.getArticulosPrecio().put(prod,precioCoste);
 			System.err.println("se ha añadido el producto "+prod.getNombre()+" con el coste "+coste);
 			
 		});

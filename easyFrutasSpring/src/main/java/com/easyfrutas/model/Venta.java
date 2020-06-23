@@ -1,5 +1,6 @@
 package com.easyfrutas.model;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import javax.persistence.ElementCollection;
@@ -20,7 +21,10 @@ public class Venta {
 	private long id;
 	
 	@ElementCollection
-	private Map<Producto,Double> articulosPrecio;
+	private Map<Producto,PrecioCoste> articulosPrecio;
+	
+	
+	
 	
 	@ManyToOne
 	private Usuario usuario;
@@ -28,6 +32,8 @@ public class Venta {
 	private double precioTotal;
 	
 	private String direccion;
+	
+	private LocalDateTime fecha=LocalDateTime.now();
 	
 
 }
