@@ -70,7 +70,7 @@ public class UsuarioServicio {
 		u.setCodigoValidacion(Codificador.codifica(u.getEmail()));
 	
 		Usuario guardado = usuarioRepositorio.save(u);
-		enviaEmailDeRegistro(u);
+	//	enviaEmailDeRegistro(u);
 
 		Carrito carr = new Carrito();
 		carr.setUsuario(u);
@@ -94,8 +94,10 @@ public class UsuarioServicio {
 		mail.setModel(model);
 
 		try {
+			System.err.println("ENVIAMOS EL EMAIL");
 			emailService.sendSimpleMessage(mail);
 		} catch (MessagingException e) {
+			
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

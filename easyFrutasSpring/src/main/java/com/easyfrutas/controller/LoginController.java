@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +61,14 @@ public class LoginController {
 	}
 	
 	@PostMapping("/registro")
-	public String registroPost(@ModelAttribute Usuario usuario) {
+	public String registroPost(@ModelAttribute Usuario usuario , @RequestParam("contrasenia2") String contrasenia2) {
+		
+		if(!contrasenia2.contentEquals(usuario.getContrasenia())) {
+			
+			return "redirect:/registro";
+		}
+	
+			
 		
 		Usuario palo=usuServ.buscarPorEmail(usuario.getEmail());
 		
@@ -69,7 +77,7 @@ public class LoginController {
 			return "redirect:/registro";
 			
 		}
-		usuario.setVerificado(false);
+		usuario.setVerificado(true);// ESTO LO QUITAMOS
 		usuServ.registrar(usuario);
 		
 		
@@ -112,6 +120,7 @@ public class LoginController {
 		
 		System.err.println(email);
 		Usuario usu= usuServ.buscarPorEmail(email);
+		
 		String mensaje;
 		if(usu==null)
 			mensaje="El usuario con email " +email+" no se encuentra en nuestra base de datos. Registrese otra vez o contacte con el soporte de la web.";

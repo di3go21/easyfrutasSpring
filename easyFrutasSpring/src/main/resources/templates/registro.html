@@ -109,6 +109,13 @@
                   Contraseña no válida.
                 </div>
               </div>
+                <div class="mb-3">
+                <label for="contrasenia2">Repite Contraseña </label>
+                <input type="password" name="contrasenia2" class="form-control" onkeyup="comprueba()" id="contrasenia2" placeholder="">
+                <div class="invalid-feedback">
+                  Contraseña no válida.
+                </div>
+              </div>
   
               <div class="mb-3">
                 <label for="address">Dirección Completa</label>
@@ -181,6 +188,21 @@
             });
           }, false);
         })();
+        
+        function comprueba(){
+        	 var str = $("#contrasenia").val
+        	console.log(str);
+        	console.log($("#contrasenia").val);
+        	
+        	 
+        	if ($('#contrasenia').val != $('#contrasenia2').val)
+        		alert('asdas');
+        	
+        	
+        }
+        
+        
+        
       </script>
 
 
