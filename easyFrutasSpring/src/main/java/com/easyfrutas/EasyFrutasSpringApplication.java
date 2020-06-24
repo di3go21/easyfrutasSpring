@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import com.easyfrutas.model.Usuario;
 import com.easyfrutas.servicios.UsuarioServicio;
 
+
 @SpringBootApplication
 public class EasyFrutasSpringApplication {
 
@@ -36,8 +37,8 @@ public class EasyFrutasSpringApplication {
 			usu2.setContrasenia("password");
 			usu2.setEmail("almu_9089sssa3@hotmaissl.com");
 			usu2.setTelefono("916130484");
-			usuarioServicio.registrar(usu);
-			usuarioServicio.registrar(usu2);
+//			usuarioServicio.registrar(usu);
+//			usuarioServicio.registrar(usu2);
 
 //			Usuario usuario = new Usuario();
 //			usuario.setEmail("abcdefg");
