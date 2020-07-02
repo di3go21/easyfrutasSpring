@@ -1,8 +1,5 @@
 package com.easyfrutas.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,48 +8,41 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.easyfrutas.model.Carrito;
-import com.easyfrutas.model.PrecioCoste;
 import com.easyfrutas.model.Usuario;
 import com.easyfrutas.model.Venta;
-import com.easyfrutas.repositorios.CarritoRepositorio;
-import com.easyfrutas.repositorios.PrecioCosteRepositorio;
-import com.easyfrutas.repositorios.ProductoRepositorio;
-import com.easyfrutas.repositorios.UsuarioRepositorio;
-import com.easyfrutas.repositorios.VentaRepositorio;
-import com.easyfrutas.util.Numeros;
+import com.easyfrutas.servicios.CarritoServicio;
+import com.easyfrutas.servicios.UsuarioServicio;
+import com.easyfrutas.servicios.VentaServicio;
 
 @Controller
 public class CompraController {
+	final String ERRORMSG = "Ha ocurrido un error interno en la aplicación. Vuelva a intentar la operación y si el problema persiste"
+			+ " por favor notifíquelo."; 
+	final String MENSAJE_VARIACION="El stock ha variado y se han modificado algunas cantidades, por favor revisa la lista.";
 	
-
 	@Autowired
-	UsuarioRepositorio usure;
+	UsuarioServicio usuarioServicio;
 	@Autowired
-	CarritoRepositorio carrRe;
+	CarritoServicio carritoServicio;
 	@Autowired
-	ProductoRepositorio prodRepo;
-	@Autowired
-	VentaRepositorio ventaRepo;
-	@Autowired
-	PrecioCosteRepositorio prodPrecioRepo;
+	VentaServicio ventaServicio;
 	
 	@GetMapping("/compra")
 	public String getResumen(Model model) {
 		
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		Usuario usu = usure.findByEmail(email);
-		Carrito carr = carrRe.findByUsuario(usu);
-		
+		Usuario usu = usuarioServicio.buscarPorEmail(email);
+		Carrito carr =carritoServicio.getCarritoUsuario(email);
 		
 		if (carr==null)
 			return "redirect:/productos";
+		if (carritoServicio.verificaCarrito(carr)) 
+			model.addAttribute("mensaje", this.MENSAJE_VARIACION);
 		
-		if (carr.getLista().isEmpty())
-			return "redirect:/productos";
-		
+		if (carr.getTotal()==0.0)
+			carritoServicio.eliminarCarrito(carr);
 		model.addAttribute("carrito", carr);
 		model.addAttribute("usuario",usu);
-		
 		return "precompra";
 		
 	}
@@ -61,51 +51,21 @@ public class CompraController {
 	@PostMapping("/compra")
 	public String efectuarCompra(Model model){
 		
-		System.out.println("ENTRAMOS A LA COMPRA");
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		Usuario usu = usure.findByEmail(email);
-		Carrito carr = carrRe.findByUsuario(usu);
-		Venta venta= new Venta();
-		venta.setArticulosPrecio(new HashMap<>());
-		
-		
-		
-		
-		carr.getLista().forEach((prod,cantidad)->{
-			PrecioCoste precioCoste;
-			double coste= prod.getPrecio()*cantidad;
-			System.err.println(coste+ " coste antes del redondeo");
-			//coste = (double) Math.round(coste * 100) / 100;
-			coste = Numeros.redondeaAdos(coste);
-			System.err.println(coste+ " coste despues del redondeo");
-			precioCoste=new PrecioCoste();
-			precioCoste.setPrecioInstante(prod.getPrecio());
-			precioCoste.setCoste(coste);
-			precioCoste=prodPrecioRepo.save(precioCoste);
+		Usuario usu = usuarioServicio.buscarPorEmail(email);
+		Carrito carr = carritoServicio.getCarritoUsuario(email);
+		Venta compraHecha= ventaServicio.guardaVenta(ventaServicio.procesaVenta(usu,carr));
 			
-			venta.getArticulosPrecio().put(prod,precioCoste);
-			System.err.println("se ha añadido el producto "+prod.getNombre()+" con el coste "+coste);
-			
-		});
-		
-		venta.setUsuario(usu);
-		venta.setPrecioTotal(carr.getTotal());
-		venta.setDireccion(usu.getDireccion());
-		Venta compraHecha=ventaRepo.save(venta);
+		if (compraHecha==null) {
+			model.addAttribute("mensaje",this.ERRORMSG);
+			return "redirect:/productos";
+		}
 		model.addAttribute("venta", compraHecha);
 		model.addAttribute("carrito", carr);
 		model.addAttribute("usuario",usu);
-		
-		carrRe.delete(carr);
-		
-		System.err.println("COMPRA HECHA HECHO");
-		
-		
+		carritoServicio.eliminarCarrito(carr);		
 		return "resumenCompra";
 	}
-	
-		
-		
 		
 		
 	}

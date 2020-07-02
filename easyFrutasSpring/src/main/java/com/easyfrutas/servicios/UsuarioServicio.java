@@ -109,8 +109,14 @@ public class UsuarioServicio {
 		auxiliar.setTelefono(usuario.getTelefono());
 		auxiliar.setDireccion(usuario.getDireccion());
 		this.guarda(auxiliar);
-	
 		return auxiliar;
+	}
+
+	public void validaUsuario(String email) {
+		Usuario usu = usuarioRepositorio.findByEmail(email);
+		usu.setVerificado(true);
+		usuarioRepositorio.save(usu);
+		
 	}
 
 }

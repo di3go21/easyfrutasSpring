@@ -16,6 +16,4 @@ public interface VentaRepositorio extends JpaRepository<Venta, Long> {
 	public List<Venta> findByUsuarioEmail(String email);
 	
 	
-//	public List<Venta> findByLoc();
-
 }

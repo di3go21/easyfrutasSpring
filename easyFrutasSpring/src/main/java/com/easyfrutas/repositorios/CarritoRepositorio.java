@@ -11,5 +11,7 @@ public interface CarritoRepositorio extends JpaRepository<Carrito, Long> {
 	
 	public Carrito findByUsuario(Usuario usuario);
 	
+	public Carrito findByUsuarioEmail(String email);
+	
 
 }

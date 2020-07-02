@@ -26,6 +26,10 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+input {
+   padding-left: 2em;
+   width: 6em;
+   }
 
 @media ( min-width : 768px) {
 	.bd-placeholder-img-lg {
@@ -132,8 +136,20 @@
 
 					<form method="post" th:action="'/carrito/add/'+${producto.id}"
 						class="form d-flex justify-content-center">
+						
+						
+						<div class="form-group mx-sm-3 mb-2" th:if="${producto.stock<=0.5}">
+							<input type="hidden" name="idprod" th:value="${producto.id}">
+						<input type="number" size="3"
+								value="0.5" id="cantidad"  disabled step="0.1" name="cantidad" min="0.5"
+								th:max="${producto.stock}"><span style="margin-left:5px">kg</span>
+								<button type="submit" disabled class="btn btn-danger mb-2">Agotado :(</button>
+						</div>
 
-						<div class="form-group mx-sm-3 mb-2" >
+
+
+
+						<div class="form-group mx-sm-3 mb-2" th:unless="${producto.stock<=0.5}">
 							<input type="hidden" name="idprod" th:value="${producto.id}">
 						<input type="number" size="3"
 								value="0.5" id="cantidad" step="0.1" name="cantidad" min="0.5"

@@ -42,10 +42,10 @@ public class Usuario implements Serializable{
 	@NotNull
 	private String contrasenia;
 	@NotNull
-	@Size(min=15, max=50)
+	@Size(min=15, max=100)
 	private String direccion;
 	@NotNull
-	@Size(min=9, max=15)
+	@Size(min=8, max=15)
 	private String telefono;
 	private boolean verificado;
 	private String codigoValidacion;
