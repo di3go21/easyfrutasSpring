@@ -13,7 +13,7 @@ import com.easyfrutas.model.Venta;
 public interface VentaRepositorio extends JpaRepository<Venta, Long> {
 	
 	public List<Venta> findByUsuario(Usuario usuario);
-	
+	public List<Venta> findByUsuarioEmail(String email);
 	
 	
 //	public List<Venta> findByLoc();

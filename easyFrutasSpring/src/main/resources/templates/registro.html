@@ -75,7 +75,9 @@
           
           <div class="col-md-8 mx-auto order-md-1 ">
             <h4 class="mb-3">Datos de Usuario</h4>
-            <form class="needs-validation" novalidate 	method="POST"  th:action="@{/registro}" th:object="${usuario}">
+            <form class="needs-validation" novalidate 	method="POST"  th:action="@{/registro}" th:object="${usuario}" >
+<!--             oninput='contrasenia.setCustomValidity(contrasenia.value != contrasenia2.value ? "Las contraseñas no coinciden" : "")'  -->
+<!--             > -->
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="firstName">Nombre</label>
@@ -96,7 +98,7 @@
             
               <div class="mb-3">
                 <label for="email">Email </label>
-                <input type="email" name="email" class="form-control" id="email" th:field="*{email}" placeholder="pepe@google.com">
+                <input type="email" name="email" class="form-control" id="email" th:field="*{email}" placeholder="pepe@google.com" required>
                 <div class="invalid-feedback">
                   El email no es válido.
                 </div>
@@ -104,16 +106,16 @@
               
                <div class="mb-3">
                 <label for="contrasenia">Contraseña </label>
-                <input type="password" name="contrasenia" th:field="*{contrasenia}" class="form-control" id="contrasenia" placeholder="">
+                <input type="password" name="contrasenia" th:field="*{contrasenia}" onkeyup="comprueba()" class="form-control" id="contrasenia" placeholder="" required>
                 <div class="invalid-feedback">
-                  Contraseña no válida.
+                 Debes rellenar la contraseña.
                 </div>
               </div>
                 <div class="mb-3">
                 <label for="contrasenia2">Repite Contraseña </label>
-                <input type="password" name="contrasenia2" class="form-control" onkeyup="comprueba()" id="contrasenia2" placeholder="">
+                <input type="password" name="contrasenia2" class="form-control" onkeyup="comprueba()" id="contrasenia2" placeholder="" required>
                 <div class="invalid-feedback">
-                  Contraseña no válida.
+                  Las contraseñas deben ser iguales.
                 </div>
               </div>
   
@@ -126,7 +128,7 @@
               </div>
               <div class="mb-3">
                 <label for="telefono">Telefono </label>
-                <input type="text" name="telefono" class="form-control" th:field="*{telefono}" id="telefono" placeholder="916130484">
+                <input type="text" name="telefono" class="form-control" th:field="*{telefono}" id="telefono" placeholder="916130484" required>
                 <div class="invalid-feedback">
                   El teléfono no es válido.
                 </div>
@@ -151,6 +153,9 @@
   
               
               <hr class="mb-4">
+               <div style="font-size: 20; color: #FF1C19;" th:if="${mensaje != null}" align="center" >
+            <p style="font-size: 20; color: #FF1C19;" th:text="${mensaje}">las contraseñas no coinciden.</p>
+        </div>
               <button class="btn btn-primary btn-lg btn-block" type="submit">Registrarse</button>
             </form>
           </div>
@@ -165,9 +170,34 @@
           </ul>
         </footer>
       </div>
+      
+      <script>
+
+function comprueba(){
+	 var str = $("#contrasenia").val()
+	console.log(str);
+	console.log($("#contrasenia").val());
+	
+	 
+	if ($('#contrasenia').val() != $('#contrasenia2').val()){
+		$('#contrasenia2').get(0).setCustomValidity('Invalid');
+		
+	}
+	else
+		$('#contrasenia2').get(0).setCustomValidity('');
+		
+	
+	
+		console.log('HOLA MUNDO');
+	
+}
+
+</script>
   
      
       <script>
+      
+    
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {
           'use strict';
@@ -189,17 +219,7 @@
           }, false);
         })();
         
-        function comprueba(){
-        	 var str = $("#contrasenia").val
-        	console.log(str);
-        	console.log($("#contrasenia").val);
-        	
-        	 
-        	if ($('#contrasenia').val != $('#contrasenia2').val)
-        		alert('asdas');
-        	
-        	
-        }
+        
         
         
         

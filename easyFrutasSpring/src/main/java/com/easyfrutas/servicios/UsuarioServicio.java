@@ -1,8 +1,6 @@
 package com.easyfrutas.servicios;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,35 +41,22 @@ public class UsuarioServicio {
 		return usuarioRepositorio.findFirstByEmail(email);
 
 	}
-	
-	public Usuario cambiaPass(String email,String vieja,String nueva) {
+
+	public Usuario cambiaPass(String email, String vieja, String nueva) {
 		Usuario loco = buscarPorEmail(email);
-		
-		
-		
-			
-			loco.setContrasenia(passEncoder.encode(nueva));
-			loco= usuarioRepositorio.save(loco);
-			System.err.println(loco.getContrasenia()+" esta es la nueva");
-			System.err.println(passEncoder.encode(nueva));
-			
-			
-				System.err.println("TODO BIEN");
-				return loco;
-	
-		
-		
+		loco.setContrasenia(passEncoder.encode(nueva));
+		loco = usuarioRepositorio.save(loco);
+
+		return loco;
+
 	}
-	
 
 	public Usuario registrar(Usuario u) {
 
 		u.setContrasenia(passEncoder.encode(u.getContrasenia()));
 		u.setCodigoValidacion(Codificador.codifica(u.getEmail()));
-	
+		u.setVerificado(true);
 		Usuario guardado = usuarioRepositorio.save(u);
-	//	enviaEmailDeRegistro(u);
-
 		Carrito carr = new Carrito();
 		carr.setUsuario(u);
 		carr.setLista(new HashMap<>());
@@ -86,31 +71,46 @@ public class UsuarioServicio {
 		mail.setFrom("easyfrutas@gmail.com");
 		mail.setTo(u.getEmail());
 		mail.setSubject("Confirma Tu Registro en EasyFrutas");
-		mail.setNombreCompleto(u.getNombre()+' '+u.getApellido());
+		mail.setNombreCompleto(u.getNombre() + ' ' + u.getApellido());
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("nombre", mail.getNombreCompleto());
 		model.put("codigo", u.getCodigoValidacion());
-		System.err.println("el codigo de validacion del email va a ser "+u.getCodigoValidacion());
 		mail.setModel(model);
 
 		try {
-			System.err.println("ENVIAMOS EL EMAIL");
 			emailService.sendSimpleMessage(mail);
 		} catch (MessagingException e) {
-			
+
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	public Usuario buscaPorCodigo(String codigo) {
 		return this.usuarioRepositorio.findByCodigoValidacion(codigo);
 	}
-	
+
 	public Usuario guarda(Usuario usu) {
 		return usuarioRepositorio.save(usu);
+	}
+
+	public boolean passAntiguaValida(String passAntigua, String email) {
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
+		
+		return passEncoder.matches(passAntigua, usuario.getContrasenia());
+	}
+
+	public Usuario actualizaDatos(Usuario usuario, String email) {
+		Usuario auxiliar = this.buscarPorEmail(email);
+		auxiliar.setNombre(usuario.getNombre());
+		auxiliar.setApellido(usuario.getApellido());
+		auxiliar.setTelefono(usuario.getTelefono());
+		auxiliar.setDireccion(usuario.getDireccion());
+		this.guarda(auxiliar);
+	
+		return auxiliar;
 	}
 
 }

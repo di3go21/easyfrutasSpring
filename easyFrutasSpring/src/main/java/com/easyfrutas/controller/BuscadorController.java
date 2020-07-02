@@ -21,9 +21,7 @@ public class BuscadorController {
 	@GetMapping("/buscar")
 	public String result(  @RequestParam(name="query") String query,Model model) {
 		
-		System.err.println(query);
 		List<Producto> resultado= productoRepositorio.findByNombreContainsIgnoreCase(query);
-		System.err.println(resultado);
 		model.addAttribute("productos",resultado);
 		
 		return "productos";

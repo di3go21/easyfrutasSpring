@@ -14,132 +14,105 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.easyfrutas.model.Producto;
 import com.easyfrutas.model.Usuario;
 import com.easyfrutas.model.Venta;
-import com.easyfrutas.repositorios.ProductoRepositorio;
-import com.easyfrutas.repositorios.UsuarioRepositorio;
-import com.easyfrutas.repositorios.VentaRepositorio;
+import com.easyfrutas.servicios.ProductoServicio;
 import com.easyfrutas.servicios.UsuarioServicio;
+import com.easyfrutas.servicios.VentaServicio;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class UsuarioController {
+	final String NO_COINCIDE_ACTUAL = "La contraseña actual no coincide con la que se ha introducido";
+	final String IGUALES_TODAS = "La contraseña nueva y la antigua no pueden ser iguales";
+	final String NO_COINCIDEN_NUEVAS = "Las contraseñas no coinciden";
+	final String CAMBIO_OK = "Se ha cambiado la contraseña satisfactoriamente!";
+	final String ERROR = "No se ha podido cambiar la contraseña."
+			+ " Intentelo otra vez y si el problema persiste pónganse en contacto con nosotros";
+	final String MENSAJE = "mensaje";
 
 	@Autowired
-	public UsuarioRepositorio usuarioRepositorio;
+	public UsuarioServicio usuarioServicio;
+
 	@Autowired
-	public ProductoRepositorio productoRepositorio;
+	public ProductoServicio productoServicio;
+
 	@Autowired
 	UsuarioServicio usuServ;
 	@Autowired
-	public VentaRepositorio ventaRepo;
+	public VentaServicio ventaServicio;
 
 	@GetMapping("/hola")
 	public String bienvenida(Model modelo) {
-		
-		List<Usuario> todos= usuarioRepositorio.findAll();
-		todos.forEach(x->System.err.println(x));
-		modelo.addAttribute("usuarios",todos);
-		System.err.println("loco");
 		return "welcome";
 	}
-	
-	@GetMapping({"","/productos"})
+
+	@GetMapping({ "", "/productos" })
 	public String productos(Model modelo) {
-		System.out.println("loco?");
-		List<Producto> todosProductos= productoRepositorio.findAll();
-		todosProductos.forEach(x->System.err.println(x));
-		modelo.addAttribute("productos",todosProductos);
-		
+		List<Producto> todosProductos = productoServicio.encuentraTodos();
+		modelo.addAttribute("productos", todosProductos);
 		return "productos";
 	}
 
 	@GetMapping("/personal")
 	public String areaPersonal(Model model) {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		Usuario usu = usuarioRepositorio.findByEmail(email);
-		List<Venta> listaVentas= ventaRepo.findByUsuario(usu);
-		
-		model.addAttribute("ventas",listaVentas);
-		model.addAttribute("usuario",usu);
-		
-		
+		Usuario usu = usuarioServicio.buscarPorEmail(email);
+		List<Venta> listaVentas = ventaServicio.ventasDeUsuario(usu);
+		model.addAttribute("ventas", listaVentas);
+		model.addAttribute("usuario", usu);
 		return "personal";
 	}
-	
+
 	@GetMapping("/personal/cambiarPass")
 	public String servirCambioPass() {
-		
 		return "formCambioPass";
-		
 	}
+
 	@PostMapping("/personal/cambiarPass")
 	public String cambiarContra(@RequestParam("vieja") String oldP, @RequestParam("nueva1") String newP1,
-			 @RequestParam("nueva2") String newP2,Model modelo) {
-		
-		System.err.println(oldP);
-		System.err.println(newP1);
-		System.err.println(newP2);
-		
-		
+			@RequestParam("nueva2") String newP2, Model modelo) {
+
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		if(!newP1.contentEquals(newP2)) {
-			modelo.addAttribute("mensaje","Las contraseñas no coinciden");
+
+		if (newP1.contentEquals(newP2) & newP1.contentEquals(oldP)) {
+			modelo.addAttribute(this.MENSAJE, this.IGUALES_TODAS);
 			return "formCambioPass";
-			
 		}
-		
-		
-		
-		
-		if (email!=null) {
-			
+
+		if (!newP1.contentEquals(newP2)) {
+			modelo.addAttribute(this.MENSAJE, this.NO_COINCIDEN_NUEVAS);
+			return "formCambioPass";
+		}
+
+		if (!usuarioServicio.passAntiguaValida(oldP, email)) {
+			modelo.addAttribute(this.MENSAJE, this.NO_COINCIDE_ACTUAL);
+			return "formCambioPass";
+		}
+
+		if (email != null) {
 			Usuario loco = usuServ.cambiaPass(email, oldP, newP1);
-			if (loco!=null) {
-				modelo.addAttribute("mensaje","Se ha cambiado la contraseña satisfactoriamente!");
+			if (loco != null) {
+				modelo.addAttribute(this.MENSAJE, this.CAMBIO_OK);
 				return "cambiopass";
 			}
-			else
-				modelo.addAttribute("mensaje","LOCO vacio No se ha podido cambiar la contraseña."
-						+ " Intentelo otra vez y si el problema persiste pónganse en contacto con nosotros");
-			
-				
 		}
-		else
-			modelo.addAttribute("mensaje","Email vacio No se ha podido cambiar la contraseña. "
-					+ "Intentelo otra vez y si el problema persiste pónganse en contacto con nosotros");
-		
-		
-		
-		return "cambiopass";
+
+		modelo.addAttribute(this.MENSAJE, this.ERROR);
+
+		return "formCambioPass";
 	}
-	
-	
-	
+
 	@PostMapping("/personal/cambios")
-	public String nuevosDatos(Model model,@ModelAttribute Usuario usuario) {
-		System.err.println(usuario);
-		System.err.println(model);
-		
+	public String nuevosDatos(Model model, @ModelAttribute Usuario usuario) {
+
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		Usuario auxiliar= usuServ.buscarPorEmail(email);
-		auxiliar.setNombre(usuario.getNombre());
-		auxiliar.setApellido(usuario.getApellido());
-		auxiliar.setTelefono(usuario.getTelefono());
-		auxiliar.setDireccion(usuario.getDireccion());
-		
-		System.err.println(auxiliar);
-		System.err.println(usuServ.guarda(auxiliar));
-		
-		model.addAttribute("usuario",auxiliar);
-		
+		Usuario nuevo =usuServ.actualizaDatos(usuario,email);
+	
+
+		model.addAttribute("usuario", nuevo);
+
 		return "redirect:/personal";
 	}
-	
-	
-	
-	
-	
-	
 
 }

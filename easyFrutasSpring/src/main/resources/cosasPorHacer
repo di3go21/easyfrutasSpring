@@ -2,14 +2,9 @@
 
 
 
-// editar mis datos
-
-
-// cambiar password
-
-//repetir contraseña y que valide
-
 
 //implementar paypal
 
-//mesaje si quiere registrarse con ya registrado
+// impplementar la validacion con mensajes de error de binding errors
+
+
